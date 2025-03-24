@@ -1,0 +1,103 @@
+{
+  "cards": [
+    {
+      "id": 0,
+      "question": "незграбний",
+      "answer": "ungeschickt",
+      "ef": 2.5,
+      "interval": 0,
+      "nextReview": 0,
+      "repCount": 0
+    },
+    {
+      "id": 1,
+      "question": "fleißig",
+      "answer": "unermüdlich",
+      "ef": 2.5,
+      "interval": 0,
+      "nextReview": 0,
+      "repCount":  0
+    },
+    {
+      "id": 2,
+      "question": "смачний",
+      "answer": "köstlich",
+      "ef": 2.5,
+      "interval": 0,
+      "nextReview": 0,
+      "repCount":  0
+    },
+    {
+      "id": 3,
+      "question": "запалювати",
+      "answer": "anzünden",
+      "ef": 2.5,
+      "interval": 0,
+      "nextReview": 0,
+      "repCount":  0
+    },
+    {
+      "id": 4,
+      "question": "луг",
+      "answer": "Die Wiese",
+      "ef": 2.5,
+      "interval": 0,
+      "nextReview": 0,
+      "repCount":  0
+    },
+    {
+      "id": 5,
+      "question": "Підкреслювати, виділяти",
+      "answer": "unterstreichen",
+      "ef": 2.5,
+      "interval": 0,
+      "nextReview": 0,
+      "repCount":  0
+    },
+    {
+      "id": 6,
+      "question": "Обдарованість, талант",
+      "answer": "Die Begabung",
+      "ef": 2.5,
+      "interval": 0,
+      "nextReview": 0,
+      "repCount":  0
+    },
+    {
+      "id": 7,
+      "question": "Провірка, огляд",
+      "answer": "Die Durchsicht",
+      "ef": 2.5,
+      "interval": 0,
+      "nextReview": 0,
+      "repCount":  0
+    },
+    {
+      "id": 8,
+      "question": "Основний, базовий",
+      "answer": "grundlegend",
+      "ef": 2.5,
+      "interval": 0,
+      "nextReview": 0,
+      "repCount":  0
+    },
+    {
+      "id": 9,
+      "question": "Помста",
+      "answer": "Die Rache",
+      "ef": 2.5,
+      "interval": 0,
+      "nextReview": 0,
+      "repCount":  0
+    },
+    {
+      "id": 10,
+      "question": "Спостерігати",
+      "answer": "zusehen",
+      "ef": 2.5,
+      "interval": 0,
+      "nextReview": 0,
+      "repCount":  0
+    }
+  ]
+}
