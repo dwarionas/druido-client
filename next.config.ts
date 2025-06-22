@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
             { source: "/app/:path*", destination: "/app/:path*" },
         ];
     },
+    reactStrictMode: false
 };
 
 export default nextConfig;

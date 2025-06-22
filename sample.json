@@ -1,103 +1,48 @@
 {
   "cards": [
     {
-      "id": 0,
       "question": "незграбний",
-      "answer": "ungeschickt",
-      "ef": 2.5,
-      "interval": 0,
-      "nextReview": 0,
-      "repCount": 0
+      "answer": "ungeschickt"
     },
     {
-      "id": 1,
       "question": "fleißig",
-      "answer": "unermüdlich",
-      "ef": 2.5,
-      "interval": 0,
-      "nextReview": 0,
-      "repCount":  0
+      "answer": "unermüdlich"
     },
     {
-      "id": 2,
       "question": "смачний",
-      "answer": "köstlich",
-      "ef": 2.5,
-      "interval": 0,
-      "nextReview": 0,
-      "repCount":  0
+      "answer": "köstlich"
     },
     {
-      "id": 3,
       "question": "запалювати",
-      "answer": "anzünden",
-      "ef": 2.5,
-      "interval": 0,
-      "nextReview": 0,
-      "repCount":  0
+      "answer": "anzünden"
     },
     {
-      "id": 4,
       "question": "луг",
-      "answer": "Die Wiese",
-      "ef": 2.5,
-      "interval": 0,
-      "nextReview": 0,
-      "repCount":  0
+      "answer": "Die Wiese"
     },
     {
-      "id": 5,
       "question": "Підкреслювати, виділяти",
-      "answer": "unterstreichen",
-      "ef": 2.5,
-      "interval": 0,
-      "nextReview": 0,
-      "repCount":  0
+      "answer": "unterstreichen"
     },
     {
-      "id": 6,
       "question": "Обдарованість, талант",
-      "answer": "Die Begabung",
-      "ef": 2.5,
-      "interval": 0,
-      "nextReview": 0,
-      "repCount":  0
+      "answer": "Die Begabung"
     },
     {
-      "id": 7,
       "question": "Провірка, огляд",
-      "answer": "Die Durchsicht",
-      "ef": 2.5,
-      "interval": 0,
-      "nextReview": 0,
-      "repCount":  0
+      "answer": "Die Durchsicht"
     },
     {
-      "id": 8,
       "question": "Основний, базовий",
-      "answer": "grundlegend",
-      "ef": 2.5,
-      "interval": 0,
-      "nextReview": 0,
-      "repCount":  0
+      "answer": "grundlegend"
     },
     {
-      "id": 9,
       "question": "Помста",
-      "answer": "Die Rache",
-      "ef": 2.5,
-      "interval": 0,
-      "nextReview": 0,
-      "repCount":  0
+      "answer": "Die Rache"
     },
     {
-      "id": 10,
       "question": "Спостерігати",
-      "answer": "zusehen",
-      "ef": 2.5,
-      "interval": 0,
-      "nextReview": 0,
-      "repCount":  0
+      "answer": "zusehen"
     }
   ]
 }

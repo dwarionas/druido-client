@@ -1,4 +1,4 @@
-const convert = (value: number) => {
+const humanize = (value: number) => {
     let s = value;
     const months = Math.floor(s / (30 * 24 * 3600));
     s %= 30 * 24 * 3600;
@@ -22,4 +22,4 @@ const convert = (value: number) => {
     return timeParts[0];
 }
 
-export default convert;
+export default humanize;
