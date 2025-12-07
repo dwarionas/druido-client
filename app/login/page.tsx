@@ -8,7 +8,7 @@ import { LanguageSwitcher, useI18n } from "@/lib/i18n";
 function LoginHeader() {
 	const { t } = useI18n();
 	return (
-		<div className="flex flex-col items-center gap-2">
+		<div className="flex flex-col gap-2">
 			<a href="#" className="flex items-center gap-2 font-medium">
 				<div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
 					<GalleryVerticalEnd className="size-4" />
