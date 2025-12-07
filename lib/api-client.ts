@@ -22,7 +22,6 @@ async function request<T>(path: string, options: RequestInit & { parseJson?: boo
 	});
 
 	if (!parseJson) {
-		// @ts-expect-error allow non-JSON
 		return res as T;
 	}
 
