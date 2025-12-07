@@ -10,10 +10,7 @@ export default function Home() {
 						<span className="font-semibold">Druido</span>
 					</div>
 					<div className="flex gap-3">
-						<a
-							href="/login"
-							className="text-primary-foreground px-3 py-1.5 text-sm font-medium text-primary underline-offset-4 hover:underline"
-						>
+						<a href="/login" className="px-3 py-1.5 text-sm font-medium text-primary underline-offset-4 hover:underline">
 							Login
 						</a>
 						<a href="/app" className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground">
