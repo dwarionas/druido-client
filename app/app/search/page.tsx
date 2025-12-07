@@ -1,11 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { cardsApi, Card, decksApi, DeckSummary } from "@/lib/decks-api";
 import { Card as UICard, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export default function SearchPage() {
+function SearchContent() {
 	const searchParams = useSearchParams();
 	const initialQ = searchParams.get("q") || "";
 	const [query, setQuery] = React.useState(initialQ);
@@ -99,5 +99,21 @@ export default function SearchPage() {
 				</section>
 			)}
 		</div>
+	);
+}
+
+export default function SearchPage() {
+	return (
+		<Suspense fallback={
+			<div className="space-y-4">
+				<section>
+					<h1 className="text-2xl font-semibold mb-2">Search</h1>
+					<p className="text-sm text-muted-foreground">Search across all your cards by question or answer.</p>
+				</section>
+				<p className="text-muted-foreground">Loading...</p>
+			</div>
+		}>
+			<SearchContent />
+		</Suspense>
 	);
 }
