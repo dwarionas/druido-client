@@ -1,20 +1,67 @@
+"use client";
 
-export default function AppLayout({ children }: Readonly<{children: React.ReactNode }>) {
-    return (
-        <div className="w-[50%] mx-auto">
-            <div className="bg-[#1e1e1e] px-4 py-2 flex items-center space-x-4 rounded-t-xl">
-                <button className="bg-gray-700 text-white w-5 h-5" />
-                <input
-                    type="text"
-                    placeholder="Знайдіть щось"
-                    className="flex-1 bg-white text-black rounded-md px-3 py-2"
-                />
-                <button className="bg-gray-700 w-8 h-8" />
-            </div>
+import React from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
-            <div className="bg-muted/50">
-                {children}
-            </div>
-        </div>
-    )
+export default function AppLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+	const { user, loading, logout } = useAuth();
+	const router = useRouter();
+	const searchParams = useSearchParams();
+	const [query, setQuery] = React.useState(searchParams.get("q") || "");
+
+	React.useEffect(() => {
+		if (!loading && !user) {
+			const targetLogin =
+				typeof window !== "undefined" && window.location.hostname.endsWith("localhost")
+					? "http://localhost:8000/login"
+					: "https://login.druido.com";
+
+			router.push(targetLogin);
+		}
+	}, [loading, user, router]);
+
+	if (loading || !user) {
+		return (
+			<div className="flex min-h-dvh items-center justify-center">
+				<p className="text-muted-foreground">Loading your workspace...</p>
+			</div>
+		);
+	}
+
+	function handleSearchSubmit(e: React.FormEvent) {
+		e.preventDefault();
+		router.push(`/app/search?q=${encodeURIComponent(query)}`);
+	}
+
+	return (
+		<div className="min-h-dvh bg-background">
+			<header className="border-b bg-muted/40">
+				<div className="mx-auto flex max-w-5xl items-center gap-4 px-4 py-2">
+					<a href={"/app"} className="font-semibold">
+						Druido
+					</a>
+					<form onSubmit={handleSearchSubmit} className="flex flex-1 items-center gap-2">
+						<Input
+							type="search"
+							placeholder="Search cards or decks..."
+							value={query}
+							onChange={(e) => setQuery(e.target.value)}
+							className="bg-background"
+						/>
+						<Button type="submit" variant="outline">
+							Search
+						</Button>
+					</form>
+					<span className="text-sm text-muted-foreground hidden sm:inline">{user.name}</span>
+					<Button variant="ghost" size="sm" onClick={() => logout().then(() => router.push("/login"))}>
+						Logout
+					</Button>
+				</div>
+			</header>
+			<main className="mx-auto max-w-5xl px-4 py-6">{children}</main>
+		</div>
+	);
 }
