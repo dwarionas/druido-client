@@ -30,7 +30,8 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
 				await register(email, password, name || undefined);
 			}
 
-			const targetApp = typeof window !== "undefined" && window.location.hostname.endsWith("localhost") ? "/app" : "https://app.druido.com";
+			const targetApp =
+				typeof window !== "undefined" && window.location.hostname.endsWith("localhost") ? "/app" : "https://druido-client.vercel.app/app";
 
 			router.push(targetApp);
 		} catch (err) {
