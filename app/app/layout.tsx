@@ -49,7 +49,7 @@ export default function AppLayout({ children }: Readonly<{ children: React.React
 			const targetLogin =
 				typeof window !== "undefined" && window.location.hostname.endsWith("localhost")
 					? "http://localhost:8000/login"
-					: "https://druido-client.vercel.app/login";
+					: "https://druido.me/login";
 
 			router.push(targetLogin);
 		}

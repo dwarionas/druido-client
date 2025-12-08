@@ -15,10 +15,7 @@ export function LandingHero() {
 					learning and beyond.
 				</p>
 				<div className="flex flex-wrap gap-3 items-center">
-					<a
-						href="https://druido-client.vercel.app//login"
-						className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
-					>
+					<a href="https://druido.me/login" className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">
 						{t("landing.cta")}
 					</a>
 					<a href="#features" className="rounded-md border px-4 py-2 text-sm font-medium">
