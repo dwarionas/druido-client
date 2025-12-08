@@ -67,7 +67,7 @@ export default function Lernground({ deckId, version = 0 }: Props) {
 				{revealed ? (
 					<div className="rounded-sm bg-background/80 px-3 py-2 text-sm leading-relaxed md:text-base">{currentCard.answer}</div>
 				) : (
-					<p className="text-xs text-muted-foreground">Click on this card to see the answer, then choose how difficult it was. </p>
+					<p className="text-xs text-muted-foreground">Click on this card to see the answer, then choose how difficult it was.</p>
 				)}
 			</div>
 

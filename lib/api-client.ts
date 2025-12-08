@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://druido.me";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://druido-server.vercel.app";
 
 export interface ApiError {
 	message: string;
