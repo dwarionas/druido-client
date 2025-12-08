@@ -1,6 +1,6 @@
 # Live demo
 
-https://druido-client.vercel.app
+https://druido.me
 
 ## DRUIDO
 
