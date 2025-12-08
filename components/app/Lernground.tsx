@@ -32,11 +32,11 @@ export default function Lernground({ deckId, version = 0 }: Props) {
 		"flex flex-col items-center justify-center gap-1 py-2 text-xs border transition-colors disabled:opacity-60 disabled:cursor-not-allowed";
 
 	if (loading) {
-		return <p className="text-muted-foreground">Завантаження карток цієї колоди...</p>;
+		return <p className="text-muted-foreground">Loading cards from this deck...</p>;
 	}
 
 	if (!hasCards || !currentCard) {
-		return <p className="text-muted-foreground">У цій колоді ще немає карток для повторення.</p>;
+		return <p className="text-muted-foreground">There are no review cards in this deck yet.</p>;
 	}
 
 	const currentNumber = currentIndex + 1;
@@ -47,11 +47,11 @@ export default function Lernground({ deckId, version = 0 }: Props) {
 				<span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 font-medium">
 					Карта {currentNumber} з {totalCards}
 				</span>
-				<span className="hidden sm:inline">Спочатку подивись відповідь, потім оціни картку.</span>
+				<span className="hidden sm:inline">First look at the answer, then rate the card.</span>
 			</div>
 
 			<div className="space-y-2 rounded-md border bg-muted/40 p-4">
-				<div className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Питання</div>
+				<div className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Question</div>
 				<div className="rounded-sm bg-background/80 px-3 py-2 text-sm leading-relaxed md:text-base">{currentCard.question}</div>
 			</div>
 
@@ -62,14 +62,12 @@ export default function Lernground({ deckId, version = 0 }: Props) {
 				}}
 			>
 				<div className="flex items-center justify-between gap-2">
-					<span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Відповідь</span>
+					<span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Answer</span>
 				</div>
 				{revealed ? (
 					<div className="rounded-sm bg-background/80 px-3 py-2 text-sm leading-relaxed md:text-base">{currentCard.answer}</div>
 				) : (
-					<p className="text-xs text-muted-foreground">
-						Натисни на цю картку, щоб побачити відповідь, а потім обери, наскільки вона була важкою.
-					</p>
+					<p className="text-xs text-muted-foreground">Click on this card to see the answer, then choose how difficult it was. </p>
 				)}
 			</div>
 
