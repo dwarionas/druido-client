@@ -16,7 +16,6 @@ function SearchContent() {
 	React.useEffect(() => {
 		if (!initialQ) return;
 		void runSearch(initialQ);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [initialQ]);
 
 	async function runSearch(q: string) {
@@ -104,15 +103,17 @@ function SearchContent() {
 
 export default function SearchPage() {
 	return (
-		<Suspense fallback={
-			<div className="space-y-4">
-				<section>
-					<h1 className="text-2xl font-semibold mb-2">Search</h1>
-					<p className="text-sm text-muted-foreground">Search across all your cards by question or answer.</p>
-				</section>
-				<p className="text-muted-foreground">Loading...</p>
-			</div>
-		}>
+		<Suspense
+			fallback={
+				<div className="space-y-4">
+					<section>
+						<h1 className="text-2xl font-semibold mb-2">Search</h1>
+						<p className="text-sm text-muted-foreground">Search across all your cards by question or answer.</p>
+					</section>
+					<p className="text-muted-foreground">Loading...</p>
+				</div>
+			}
+		>
 			<SearchContent />
 		</Suspense>
 	);

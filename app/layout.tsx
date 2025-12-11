@@ -13,7 +13,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body className="bg-muted/100">
-				<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+				<ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
 					<I18nProvider>
 						<AuthProvider>{children}</AuthProvider>
 					</I18nProvider>

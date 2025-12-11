@@ -1,4 +1,9 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://druido-server.vercel.app";
+function getApiBaseUrl(): string {
+	if (typeof window !== "undefined" && window.location.hostname === "localhost") {
+		return "http://localhost:4000";
+	}
+	return process.env.NEXT_PUBLIC_API_URL || "https://druido-server.vercel.app";
+}
 
 export interface ApiError {
 	message: string;
@@ -11,7 +16,7 @@ async function request<T>(path: string, options: RequestInit & { parseJson?: boo
 
 	const token = typeof window !== "undefined" ? window.localStorage.getItem("druido_token") : null;
 
-	const res = await fetch(`${API_BASE_URL}${path}`, {
+	const res = await fetch(`${getApiBaseUrl()}${path}`, {
 		...init,
 		headers: {
 			"Content-Type": "application/json",

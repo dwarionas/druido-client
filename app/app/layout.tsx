@@ -11,10 +11,10 @@ function SearchFormInner() {
 	const searchParams = useSearchParams();
 	const [query, setQuery] = React.useState(searchParams.get("q") || "");
 
-	function handleSearchSubmit(e: React.FormEvent) {
+	const handleSearchSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		router.push(`/app/search?q=${encodeURIComponent(query)}`);
-	}
+	};
 
 	return (
 		<form onSubmit={handleSearchSubmit} className="flex flex-1 items-center gap-2">
@@ -47,9 +47,7 @@ export default function AppLayout({ children }: Readonly<{ children: React.React
 	React.useEffect(() => {
 		if (!loading && !user) {
 			const targetLogin =
-				typeof window !== "undefined" && window.location.hostname.endsWith("localhost")
-					? "http://localhost:8000/login"
-					: "https://druido.me/login";
+				typeof window !== "undefined" && window.location.hostname === "localhost" ? "http://localhost:8000/login" : "https://druido.me/login";
 
 			router.push(targetLogin);
 		}
@@ -72,7 +70,7 @@ export default function AppLayout({ children }: Readonly<{ children: React.React
 					</a>
 					<SearchForm />
 					<span className="text-sm text-muted-foreground hidden sm:inline">{user.name}</span>
-					<Button variant="ghost" size="sm" onClick={() => logout().then(() => router.push("/login"))}>
+					<Button variant="destructive" size="sm" onClick={() => logout().then(() => router.push("/login"))}>
 						Logout
 					</Button>
 				</div>

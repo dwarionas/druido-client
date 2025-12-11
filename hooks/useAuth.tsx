@@ -85,7 +85,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		} catch (err) {
 			const e = err as ApiError;
 			setError(e.message || "Logout failed");
-			// Навіть якщо бекенд не зміг логаутнути, на клієнті все одно чистимо стан
 		} finally {
 			if (typeof window !== "undefined") {
 				window.localStorage.removeItem("druido_token");

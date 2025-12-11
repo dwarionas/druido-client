@@ -1,23 +1,11 @@
+import { Header } from "@/components/Header";
 import { LandingHero } from "@/components/LandingHero";
 
 export default function Home() {
 	return (
 		<div className="min-h-dvh bg-background">
 			<main className="mx-auto flex min-h-dvh max-w-5xl flex-col gap-10 px-4 py-12">
-				<header className="flex items-center justify-between">
-					<div className="flex items-center gap-2">
-						<div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground font-bold">D</div>
-						<span className="font-semibold">Druido</span>
-					</div>
-					<div className="flex gap-3">
-						<a href="/login" className="px-3 py-1.5 text-sm font-medium text-primary underline-offset-4 hover:underline">
-							Login
-						</a>
-						<a href="/app" className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground">
-							Open app
-						</a>
-					</div>
-				</header>
+				<Header />
 
 				<LandingHero />
 
