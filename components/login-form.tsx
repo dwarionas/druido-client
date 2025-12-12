@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -30,10 +31,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
 				await register(email, password, name || undefined);
 			}
 
-			const targetApp =
-				typeof window !== "undefined" && window.location.hostname === "localhost" ? "/app" : "https://druido.me/app";
-
-			router.push(targetApp);
+			router.push("/app");
 		} catch (err) {
 			setFormError("Authentication failed");
 		} finally {
@@ -95,7 +93,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
 				</CardContent>
 			</Card>
 			<div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-				By continuing, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+				By continuing, you agree to our <Link href="#">Terms of Service</Link> and <Link href="#">Privacy Policy</Link>.
 			</div>
 		</div>
 	);

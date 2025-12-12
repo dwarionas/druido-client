@@ -1,6 +1,7 @@
 "use client";
 
 import React, { Suspense } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { cardsApi, Card, decksApi, DeckSummary } from "@/lib/decks-api";
 import { Card as UICard, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -73,9 +74,9 @@ function SearchContent() {
 							</CardHeader>
 							<CardContent>
 								{deck.description && <p className="text-xs text-muted-foreground mb-1">{deck.description}</p>}
-								<a href={`/app/decks/${deck.id}`} className="text-xs font-medium text-primary underline underline-offset-4">
+								<Link href={`/app/decks/${deck.id}`} className="text-xs font-medium text-primary underline underline-offset-4">
 									Open deck
-								</a>
+								</Link>
 							</CardContent>
 						</UICard>
 					))}

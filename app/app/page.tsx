@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { decksApi, DeckSummary } from "@/lib/decks-api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -67,7 +68,7 @@ export default function AppPage() {
 						<CardContent>
 							{deck.description && <p className="text-sm text-muted-foreground mb-2">{deck.description}</p>}
 							<Button variant="outline" size="sm" asChild>
-								<a href={`/app/decks/${deck.id}`}>Open deck</a>
+								<Link href={`/app/decks/${deck.id}`}>Open deck</Link>
 							</Button>
 						</CardContent>
 					</UICard>

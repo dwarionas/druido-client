@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useParams } from "next/navigation";
+import Link from "next/link";
 import { cardsApi, Card } from "@/lib/decks-api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -197,7 +198,7 @@ export default function DeckDetailPage() {
 					</Sheet>
 
 					<Button variant="outline" size="sm" asChild>
-						<a href="/app">Back to decks</a>
+						<Link href="/app">Back to decks</Link>
 					</Button>
 				</div>
 			</section>

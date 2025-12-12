@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { GalleryVerticalEnd } from "lucide-react";
 
 import { LoginForm } from "@/components/login-form";
@@ -9,12 +10,12 @@ function LoginHeader() {
 	const { t } = useI18n();
 	return (
 		<div className="flex flex-col gap-2">
-			<a href="#" className="flex items-center gap-2 font-medium">
+			<Link href="#" className="flex items-center gap-2 font-medium">
 				<div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
 					<GalleryVerticalEnd className="size-4" />
 				</div>
 				<span>Druido</span>
-			</a>
+			</Link>
 			<p className="text-xs text-muted-foreground">{t("login.subtitle")}</p>
 		</div>
 	);
