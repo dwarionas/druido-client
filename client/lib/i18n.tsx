@@ -7,7 +7,11 @@ export type Locale = "uk" | "en" | "de";
 const messages: Record<Locale, Record<string, string>> = {
 	uk: {
 		"landing.hero": "FSRS-закріплення знань для серйозних учнів.",
+		"landing.hero.sub": "Розумне планування повторень, зручне керування колодами та підтримка кількох мов.",
 		"landing.cta": "Спробувати демо",
+		"landing.cta.register": "Створити акаунт",
+		"landing.cta.note": "Демо працює без реєстрації",
+		"landing.how.title": "Як це працює",
 		"landing.features": "Можливості",
 		"landing.feature1.title": "Картки з інтервальним повторенням",
 		"landing.feature1.desc": "Оптимізований алгоритм для максимального запам'ятовування.",
@@ -31,6 +35,7 @@ const messages: Record<Locale, Record<string, string>> = {
 		"landing.features.grid.4.title": "Мультимовність",
 		"landing.features.grid.4.desc": "UK, EN, DE — обирайте свою мову.",
 		"header.login": "Спробувати",
+		"header.signin": "Увійти",
 		"header.app": "До додатку",
 		"login.title": "Повертаємось до навчання",
 		"login.subtitle": "Увійдіть за допомогою email та пароля",
@@ -170,7 +175,11 @@ const messages: Record<Locale, Record<string, string>> = {
 	},
 	en: {
 		"landing.hero": "FSRS-based spaced repetition for serious learners.",
+		"landing.hero.sub": "Smart scheduling, powerful deck management, and multi-language support.",
 		"landing.cta": "Try Demo",
+		"landing.cta.register": "Create account",
+		"landing.cta.note": "The demo works without signing up",
+		"landing.how.title": "How it works",
 		"landing.features": "Features",
 		"landing.feature1.title": "Spaced Repetition Flashcards",
 		"landing.feature1.desc": "Optimized algorithm for maximum retention.",
@@ -194,6 +203,7 @@ const messages: Record<Locale, Record<string, string>> = {
 		"landing.features.grid.4.title": "Multilingual",
 		"landing.features.grid.4.desc": "UK, EN, DE — choose your language.",
 		"header.login": "Try Demo",
+		"header.signin": "Log in",
 		"header.app": "Go to App",
 		"login.title": "Welcome back",
 		"login.subtitle": "Log in with your email and password",
@@ -333,7 +343,11 @@ const messages: Record<Locale, Record<string, string>> = {
 	},
 	de: {
 		"landing.hero": "FSRS-basiertes Wiederholen für ernsthafte Lerner.",
+		"landing.hero.sub": "Intelligente Wiederholungsplanung, bequeme Deck-Verwaltung und Mehrsprachigkeit.",
 		"landing.cta": "Demo starten",
+		"landing.cta.register": "Konto erstellen",
+		"landing.cta.note": "Die Demo funktioniert ohne Registrierung",
+		"landing.how.title": "So funktioniert's",
 		"landing.features": "Funktionen",
 		"landing.feature1.title": "Spaced Repetition Karteikarten",
 		"landing.feature1.desc": "Optimierter Algorithmus für maximales Behalten.",
@@ -357,6 +371,7 @@ const messages: Record<Locale, Record<string, string>> = {
 		"landing.features.grid.4.title": "Mehrsprachig",
 		"landing.features.grid.4.desc": "UK, EN, DE — wählen Sie Ihre Sprache.",
 		"header.login": "Ausprobieren",
+		"header.signin": "Anmelden",
 		"header.app": "Zur App",
 		"login.title": "Willkommen zurück",
 		"login.subtitle": "Melde dich mit E-Mail und Passwort an",
@@ -555,7 +570,7 @@ export function LanguageSwitcher() {
 					key={lng}
 					type="button"
 					onClick={() => setLocale(lng)}
-					className={`px-2 py-1 transition-all ${locale === lng ? "btn-gradient font-medium" : "text-muted-foreground hover:bg-muted"
+					className={`px-2 py-1 rounded-md transition-colors ${locale === lng ? "bg-accent text-foreground font-medium" : "text-muted-foreground hover:text-foreground"
 						}`}
 				>
 					{lng.toUpperCase()}

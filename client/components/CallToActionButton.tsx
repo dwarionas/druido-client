@@ -5,9 +5,15 @@ import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
 import { useI18n } from "@/lib/i18n";
 import { api } from "@/lib/api-client";
+import { Button } from "@/components/ui/button";
 import React from "react";
 
-export function CallToActionButton() {
+interface Props {
+    size?: "default" | "lg";
+    className?: string;
+}
+
+export function CallToActionButton({ size = "default", className }: Props) {
     const { user, loading, refreshUser } = useAuth();
     const { t } = useI18n();
     const router = useRouter();
@@ -26,22 +32,15 @@ export function CallToActionButton() {
 
     if (!loading && user) {
         return (
-            <Link
-                href="/app"
-                className="w-full h-14 bg-primary text-primary-foreground hover:bg-teal-hover text-xl font-medium rounded-full flex items-center justify-center transition-all hover:shadow-[0_0_30px_rgba(30,193,167,0.4)]"
-            >
-                {t("header.app")}
-            </Link>
+            <Button size={size} className={className} asChild>
+                <Link href="/app">{t("header.app")}</Link>
+            </Button>
         );
     }
 
     return (
-        <button
-            onClick={handleTryDemo}
-            disabled={starting || loading}
-            className="w-full h-14 bg-primary text-primary-foreground hover:bg-teal-hover text-xl font-medium rounded-full flex items-center justify-center transition-all hover:shadow-[0_0_30px_rgba(30,193,167,0.4)] disabled:opacity-60"
-        >
+        <Button size={size} className={className} onClick={handleTryDemo} disabled={starting || loading}>
             {starting ? t("demo.loading") : t("landing.cta")}
-        </button>
+        </Button>
     );
 }

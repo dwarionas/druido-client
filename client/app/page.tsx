@@ -2,11 +2,40 @@
 
 import { Header } from "@/components/Header";
 import { LandingHero } from "@/components/LandingHero";
-import Link from "next/link";
 import { LanguageSwitcher, useI18n } from "@/lib/i18n";
 import { CallToActionButton } from "@/components/CallToActionButton";
 import { Brain, Upload, BarChart3, Globe } from "lucide-react";
 import React from "react";
+
+const RATING_PREVIEW = [
+	{ labelKey: "deck.review.again", interval: "10m", className: "text-red-600 dark:text-red-400" },
+	{ labelKey: "deck.review.hard", interval: "1h", className: "text-orange-600 dark:text-orange-400" },
+	{ labelKey: "deck.review.good", interval: "3d", className: "text-primary" },
+	{ labelKey: "deck.review.easy", interval: "7d", className: "text-green-600 dark:text-green-400" },
+];
+
+function CardPreview() {
+	const { t } = useI18n();
+
+	return (
+		<div className="w-full max-w-md mx-auto">
+			<div className="bg-card border border-border rounded-xl shadow-sm p-8 text-center space-y-6">
+				<p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+					{t("deck.detail.question")}
+				</p>
+				<p className="text-2xl font-semibold">die Bibliothek</p>
+				<div className="grid grid-cols-4 gap-2 pt-2">
+					{RATING_PREVIEW.map(({ labelKey, interval, className }) => (
+						<div key={labelKey} className="border border-border rounded-lg py-2 px-1">
+							<p className={`text-xs font-semibold ${className}`}>{t(labelKey)}</p>
+							<p className="text-[11px] text-muted-foreground mt-0.5">{interval}</p>
+						</div>
+					))}
+				</div>
+			</div>
+		</div>
+	);
+}
 
 export default function Home() {
 	const { t } = useI18n();
@@ -19,6 +48,12 @@ export default function Home() {
 		{ icon: Globe, titleKey: "landing.features.grid.4.title", descKey: "landing.features.grid.4.desc" },
 	];
 
+	const steps = [
+		{ titleKey: "onboarding.step1.title", descKey: "onboarding.step1.desc" },
+		{ titleKey: "onboarding.step2.title", descKey: "onboarding.step2.desc" },
+		{ titleKey: "onboarding.step3.title", descKey: "onboarding.step3.desc" },
+	];
+
 	const faqs = [
 		{ q: "landing.faq.q1", a: "landing.faq.a1" },
 		{ q: "landing.faq.q2", a: "landing.faq.a2" },
@@ -27,133 +62,100 @@ export default function Home() {
 
 	return (
 		<div className="flex flex-col min-h-dvh bg-background">
-			{/* Floating nav */}
 			<Header />
 
-			{/* Section 1: Hero */}
-			<section className="relative min-h-dvh w-full flex flex-col justify-center">
-				<div className="max-w-5xl mx-auto w-full px-6">
-					<LandingHero />
-				</div>
-				{/* Bottom gradient fade */}
-				<div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+			<LandingHero />
+
+			{/* Product preview */}
+			<section className="px-6 pb-20">
+				<CardPreview />
 			</section>
 
-			{/* Section 2: Features Grid */}
-			<section className="relative w-full py-32 px-6">
-				<div className="absolute inset-0 glow-teal-center pointer-events-none" aria-hidden="true" />
-				<div className="max-w-5xl mx-auto relative">
-					<div className="text-center mb-16">
-						<span className="text-xs sm:text-sm font-medium uppercase tracking-[0.2em] text-primary mb-4 block">
-							Features
-						</span>
-						<h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl text-foreground max-w-3xl mx-auto leading-[1.1]">
-							{t("landing.features.grid.title")}
-						</h2>
-					</div>
-
-					<div className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-3xl mx-auto mb-16">
-						{features.map(({ icon: Icon, titleKey, descKey }, i) => (
-							<div
-								key={i}
-								className="bg-card border border-border rounded-2xl p-6 transition-all duration-300 hover:border-primary/30 hover:shadow-[0_0_30px_rgba(30,193,167,0.06)] group"
-								style={{ animationDelay: `${i * 0.1}s` }}
-							>
-								<div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-									<Icon className="h-6 w-6 text-primary" />
-								</div>
-								<h3 className="text-lg font-semibold text-foreground mb-2">{t(titleKey)}</h3>
+			{/* Features */}
+			<section className="w-full py-20 px-6 border-t border-border">
+				<div className="max-w-5xl mx-auto">
+					<h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-center mb-12">
+						{t("landing.features.grid.title")}
+					</h2>
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+						{features.map(({ icon: Icon, titleKey, descKey }) => (
+							<div key={titleKey} className="bg-card border border-border rounded-xl p-5">
+								<Icon className="h-5 w-5 text-primary mb-3" />
+								<h3 className="text-sm font-semibold mb-1.5">{t(titleKey)}</h3>
 								<p className="text-sm text-muted-foreground leading-relaxed">{t(descKey)}</p>
 							</div>
 						))}
 					</div>
-
-					<div className="w-full max-w-sm mx-auto">
-						<CallToActionButton />
-					</div>
 				</div>
 			</section>
 
-			{/* Section 3: Stats / Social Proof */}
-			<section className="relative w-full py-32 px-6">
-				<div className="max-w-5xl mx-auto text-center">
-					<h2
-						className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl text-foreground max-w-4xl mx-auto leading-[1.1] mb-8"
-						dangerouslySetInnerHTML={{ __html: t("landing.feature2.title") }}
-					/>
-					<p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-16 leading-relaxed">
-						{t("landing.feature2.desc")}
-					</p>
-
-					{/* Stats row */}
-					<div className="grid grid-cols-3 gap-6 max-w-lg mx-auto mb-16">
-						<div className="text-center">
-							<div className="text-3xl sm:text-4xl font-bold text-primary">5+</div>
-							<div className="text-xs sm:text-sm text-muted-foreground mt-1">Languages</div>
-						</div>
-						<div className="text-center">
-							<div className="text-3xl sm:text-4xl font-bold text-primary">FSRS</div>
-							<div className="text-xs sm:text-sm text-muted-foreground mt-1">Algorithm</div>
-						</div>
-						<div className="text-center">
-							<div className="text-3xl sm:text-4xl font-bold text-primary">∞</div>
-							<div className="text-xs sm:text-sm text-muted-foreground mt-1">Decks</div>
-						</div>
-					</div>
-
-					<div className="w-full max-w-sm mx-auto">
-						<CallToActionButton />
-					</div>
+			{/* How it works */}
+			<section className="w-full py-20 px-6 border-t border-border">
+				<div className="max-w-3xl mx-auto">
+					<h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-center mb-12">
+						{t("landing.how.title")}
+					</h2>
+					<ol className="space-y-8">
+						{steps.map(({ titleKey, descKey }, i) => (
+							<li key={titleKey} className="flex gap-4">
+								<span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-sm font-semibold">
+									{i + 1}
+								</span>
+								<div>
+									<h3 className="font-semibold mb-1">{t(titleKey)}</h3>
+									<p className="text-sm text-muted-foreground leading-relaxed">{t(descKey)}</p>
+								</div>
+							</li>
+						))}
+					</ol>
 				</div>
 			</section>
 
-			{/* Section 4: FAQ */}
-			<section className="relative w-full py-32 px-6">
-				<div className="absolute inset-0 glow-teal pointer-events-none opacity-50" aria-hidden="true" />
-				<div className="max-w-2xl mx-auto relative">
-					<h2 className="text-4xl font-bold tracking-tight sm:text-5xl text-foreground mb-16 text-center">
+			{/* FAQ */}
+			<section className="w-full py-20 px-6 border-t border-border">
+				<div className="max-w-2xl mx-auto">
+					<h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-center mb-12">
 						{t("landing.faq.title")}
 					</h2>
-
-					<div className="space-y-3 mb-20">
+					<div className="divide-y divide-border border-y border-border mb-16">
 						{faqs.map((faq, i) => (
-							<div
-								key={i}
-								className="bg-card border border-border rounded-2xl overflow-hidden transition-all hover:border-white/15"
-							>
+							<div key={faq.q}>
 								<button
-									className="w-full text-left px-6 py-5 font-semibold text-foreground text-lg flex items-center justify-between"
+									className="w-full text-left py-4 font-medium flex items-center justify-between gap-4"
 									onClick={() => setOpenFaq(openFaq === i ? null : i)}
+									aria-expanded={openFaq === i}
 								>
 									{t(faq.q)}
-									<span className={`text-xl text-muted-foreground transition-transform duration-300 ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+									<span
+										className={`text-muted-foreground transition-transform duration-200 ${openFaq === i ? "rotate-45" : ""}`}
+									>
+										+
+									</span>
 								</button>
-								<div className={`overflow-hidden transition-all duration-300 ${openFaq === i ? "max-h-40 pb-5" : "max-h-0"}`}>
-									<p className="px-6 text-sm text-muted-foreground leading-relaxed">{t(faq.a)}</p>
+								<div
+									className={`overflow-hidden transition-all duration-200 ${openFaq === i ? "max-h-40 pb-4" : "max-h-0"}`}
+								>
+									<p className="text-sm text-muted-foreground leading-relaxed">{t(faq.a)}</p>
 								</div>
 							</div>
 						))}
 					</div>
-
-					<div className="w-full max-w-sm mx-auto mb-12">
-						<CallToActionButton />
+					<div className="flex justify-center">
+						<CallToActionButton size="lg" />
 					</div>
 				</div>
 			</section>
 
 			{/* Footer */}
-			<footer className="w-full border-t border-border py-12 px-6">
-				<div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+			<footer className="w-full border-t border-border py-10 px-6 mt-auto">
+				<div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
 					<div className="flex items-center gap-2">
-						<div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-bold">
+						<div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground text-[10px] font-bold">
 							D
 						</div>
-						<span className="text-base font-semibold text-foreground tracking-tight">Druido</span>
+						<span className="text-sm font-semibold tracking-tight">Druido</span>
 					</div>
-					<div className="flex items-center gap-6 text-sm text-muted-foreground">
-						<span>FSRS-based spaced repetition</span>
-						<LanguageSwitcher />
-					</div>
+					<LanguageSwitcher />
 					<span className="text-xs text-muted-foreground">{t("landing.footer")}</span>
 				</div>
 			</footer>
