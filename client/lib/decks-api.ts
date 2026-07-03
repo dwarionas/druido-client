@@ -22,8 +22,20 @@ export interface Deck {
 	language: string;
 	tags: string[];
 	color: string;
+	isPublic: boolean;
+	shareId: string | null;
 	createdAt: string;
 	updatedAt: string;
+}
+
+export interface SharedDeck {
+	shareId: string;
+	name: string;
+	description: string | null;
+	language: string;
+	color: string;
+	totalCards: number;
+	preview: { question: string; answer: string; tags: string[] }[];
 }
 
 export interface Card {
@@ -77,6 +89,18 @@ export function updateDeck(id: string, data: Partial<{ name: string; description
 
 export function deleteDeck(id: string) {
 	return api.del<void>(`/decks/${id}`);
+}
+
+export function setDeckSharing(id: string, isPublic: boolean) {
+	return api.post<Deck>(`/decks/${id}/share`, { isPublic });
+}
+
+export function getSharedDeck(shareId: string) {
+	return api.get<SharedDeck>(`/decks/shared/${shareId}`);
+}
+
+export function cloneSharedDeck(shareId: string) {
+	return api.post<{ deck: Deck; count: number }>(`/decks/shared/${shareId}/clone`);
 }
 
 // ----- Cards API -----

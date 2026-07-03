@@ -5,13 +5,13 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import {
 	listCards, createCard, updateCard, deleteCard, bulkDeleteCards, getDeck, bulkCreateCards, updateDeck,
-	getStatsByDeck, type Card, type Deck, type DeckStats,
+	setDeckSharing, getStatsByDeck, type Card, type Deck, type DeckStats,
 } from "@/lib/decks-api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Pencil, Trash2, Download, Upload, FileArchive, ArrowLeft } from "lucide-react";
+import { Pencil, Trash2, Download, Upload, FileArchive, ArrowLeft, Share2, Copy } from "lucide-react";
 import { toast } from "sonner";
 import {
 	AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
@@ -69,6 +69,10 @@ export default function DeckDetailPage() {
 
 	// deck stats tab
 	const [deckStats, setDeckStats] = React.useState<DeckStats | null>(null);
+
+	// sharing
+	const [isShareSheetOpen, setIsShareSheetOpen] = React.useState(false);
+	const [togglingShare, setTogglingShare] = React.useState(false);
 
 	const loadCards = React.useCallback(async (tag: string | null) => {
 		const data = await listCards({ deckId, tag: tag ?? undefined, take: PAGE_SIZE });
@@ -254,6 +258,29 @@ export default function DeckDetailPage() {
 		}
 	}
 
+	async function handleToggleSharing() {
+		if (!deck) return;
+		setTogglingShare(true);
+		try {
+			const updated = await setDeckSharing(deckId, !deck.isPublic);
+			setDeck(updated);
+		} catch {
+			toast.error(t("toast.import.failed"));
+		} finally {
+			setTogglingShare(false);
+		}
+	}
+
+	const shareUrl = deck?.shareId && typeof window !== "undefined"
+		? `${window.location.origin}/decks/shared/${deck.shareId}`
+		: "";
+
+	async function handleCopyShareLink() {
+		if (!shareUrl) return;
+		await navigator.clipboard.writeText(shareUrl);
+		toast.success(t("share.copied"));
+	}
+
 	function openDeckSheet() {
 		if (!deck) return;
 		setDeckName(deck.name);
@@ -288,6 +315,13 @@ export default function DeckDetailPage() {
 								aria-label={t("deck.edit")}
 							>
 								<Pencil className="h-3.5 w-3.5" />
+							</button>
+							<button
+								onClick={() => setIsShareSheetOpen(true)}
+								className={`p-1.5 rounded-lg transition-colors hover:bg-accent ${deck?.isPublic ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
+								aria-label={t("share.title")}
+							>
+								<Share2 className="h-3.5 w-3.5" />
 							</button>
 						</div>
 						<p className="text-sm text-muted-foreground">{totalCards} {t("app.deck.total")}</p>
@@ -340,6 +374,36 @@ export default function DeckDetailPage() {
 							</Button>
 						</div>
 					</form>
+				</SheetContent>
+			</Sheet>
+
+			{/* Share sheet */}
+			<Sheet open={isShareSheetOpen} onOpenChange={setIsShareSheetOpen}>
+				<SheetContent side="bottom" className="flex flex-col">
+					<SheetHeader>
+						<SheetTitle>{t("share.title")}</SheetTitle>
+						<SheetDescription>{t("share.desc")}</SheetDescription>
+					</SheetHeader>
+					<div className="flex flex-col gap-4 px-4 pb-6 pt-2">
+						<label className="flex items-center gap-3 cursor-pointer">
+							<input
+								type="checkbox"
+								checked={deck?.isPublic ?? false}
+								onChange={handleToggleSharing}
+								disabled={togglingShare}
+								className="h-4 w-4 accent-primary"
+							/>
+							<span className="text-sm font-medium">{t("share.public_label")}</span>
+						</label>
+						{deck?.isPublic && shareUrl && (
+							<div className="flex gap-2">
+								<Input readOnly value={shareUrl} className="text-xs" onFocus={(e) => e.target.select()} />
+								<Button type="button" variant="outline" size="icon" onClick={handleCopyShareLink} aria-label={t("share.copy")}>
+									<Copy className="h-4 w-4" />
+								</Button>
+							</div>
+						)}
+					</div>
 				</SheetContent>
 			</Sheet>
 

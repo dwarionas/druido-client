@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsArray, MinLength, MaxLength, IsEnum } from 'class-validator';
+import { IsString, IsOptional, IsArray, IsBoolean, MinLength, MaxLength, IsEnum } from 'class-validator';
 import { Language } from '@prisma/client';
 
 export class CreateDeckDto {
@@ -21,6 +21,11 @@ export class CreateDeckDto {
     @IsOptional()
     @IsString()
     color?: string;
+}
+
+export class ShareDeckDto {
+    @IsBoolean()
+    isPublic!: boolean;
 }
 
 export class UpdateDeckDto {
