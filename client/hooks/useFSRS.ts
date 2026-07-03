@@ -1,15 +1,30 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { getDueCards, reviewCard, getSchedulePreview, type Card } from "@/lib/decks-api";
 
-export function useFSRS(deckId: string, version?: number) {
+// deckId omitted -> review due cards across all decks
+export function useFSRS(deckId?: string, version?: number) {
 	const [cards, setCards] = useState<Card[]>([]);
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [showAnswer, setShowAnswer] = useState(false);
 	const [schedule, setSchedule] = useState<Record<number, string>>({});
 	const [loading, setLoading] = useState(true);
 	const [finished, setFinished] = useState(false);
+	const scheduleCardRef = useRef<string | null>(null);
+
+	const loadSchedule = useCallback(async (cardId: string) => {
+		scheduleCardRef.current = cardId;
+		try {
+			const preview = await getSchedulePreview(cardId);
+			// ignore stale responses if the user already moved on
+			if (scheduleCardRef.current === cardId) {
+				setSchedule(preview);
+			}
+		} catch {
+			// preview is a nice-to-have, rating still works without it
+		}
+	}, []);
 
 	useEffect(() => {
 		let cancelled = false;
@@ -26,8 +41,7 @@ export function useFSRS(deckId: string, version?: number) {
 					setLoading(false);
 
 					if (dueCards.length > 0) {
-						const preview = await getSchedulePreview(dueCards[0].id);
-						if (!cancelled) setSchedule(preview);
+						void loadSchedule(dueCards[0].id);
 					}
 				}
 			} catch {
@@ -37,7 +51,7 @@ export function useFSRS(deckId: string, version?: number) {
 
 		load();
 		return () => { cancelled = true; };
-	}, [deckId, version]);
+	}, [deckId, version, loadSchedule]);
 
 	const currentCard = cards[currentIndex] ?? null;
 
@@ -60,13 +74,12 @@ export function useFSRS(deckId: string, version?: number) {
 
 			setCurrentIndex(nextIndex);
 			setShowAnswer(false);
-
-			const preview = await getSchedulePreview(cards[nextIndex].id);
-			setSchedule(preview);
+			setSchedule({});
+			void loadSchedule(cards[nextIndex].id);
 		} catch (err) {
 			console.error("Failed to review card:", err);
 		}
-	}, [currentCard, currentIndex, cards]);
+	}, [currentCard, currentIndex, cards, loadSchedule]);
 
 	// keyboard shortcuts: space to flip, 1-4 to rate
 	useEffect(() => {

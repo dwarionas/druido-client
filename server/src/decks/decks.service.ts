@@ -48,12 +48,13 @@ export class DecksService {
             dueCountsRaw.map(item => [item.deckId, item._count.id])
         );
 
-        return decks.map((deck, i) => ({
+        return decks.map((deck) => ({
             id: deck.id,
             name: deck.name,
             description: deck.description,
             language: deck.language,
             tags: deck.tags,
+            color: deck.color,
             totalCards: deck._count.cards,
             dueCards: dueCountMap.get(deck.id) || 0,
             createdAt: deck.createdAt,
@@ -77,6 +78,7 @@ export class DecksService {
                 description: dto.description,
                 language: (dto.language as Language) || 'UK',
                 tags: dto.tags || [],
+                color: dto.color || 'yellow',
             },
         });
     }
@@ -91,6 +93,7 @@ export class DecksService {
                 description: dto.description,
                 tags: dto.tags,
                 language: dto.language ? (dto.language as Language) : undefined,
+                color: dto.color,
             },
         });
     }

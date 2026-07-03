@@ -74,33 +74,42 @@ export class StatsService {
     }
 
     async getDeckStats(userId: string) {
-        const decks = await this.prisma.deck.findMany({
-            where: { userId },
-            select: { id: true, name: true },
-        });
-
-        const stats = await Promise.all(
-            decks.map(async (deck) => {
-                const [total, mature, learning, newCards] = await Promise.all([
-                    this.prisma.card.count({ where: { deckId: deck.id, userId } }),
-                    this.prisma.card.count({ where: { deckId: deck.id, userId, state: 2 } }),
-                    this.prisma.card.count({ where: { deckId: deck.id, userId, state: 1 } }),
-                    this.prisma.card.count({ where: { deckId: deck.id, userId, state: 0 } }),
-                ]);
-
-                return {
-                    deckId: deck.id,
-                    deckName: deck.name,
-                    total,
-                    mature,
-                    learning,
-                    new: newCards,
-                    masteryPercent: total > 0 ? Math.round((mature / total) * 100) : 0,
-                };
+        const [decks, grouped] = await Promise.all([
+            this.prisma.deck.findMany({
+                where: { userId },
+                select: { id: true, name: true },
             }),
-        );
+            this.prisma.card.groupBy({
+                by: ['deckId', 'state'],
+                where: { userId },
+                _count: { id: true },
+            }),
+        ]);
 
-        return stats;
+        const countsByDeck = new Map<string, Record<number, number>>();
+        for (const g of grouped) {
+            const counts = countsByDeck.get(g.deckId) ?? {};
+            counts[g.state] = g._count.id;
+            countsByDeck.set(g.deckId, counts);
+        }
+
+        return decks.map((deck) => {
+            const counts = countsByDeck.get(deck.id) ?? {};
+            const mature = counts[2] ?? 0;
+            const learning = counts[1] ?? 0;
+            const newCards = counts[0] ?? 0;
+            const total = Object.values(counts).reduce((sum, n) => sum + n, 0);
+
+            return {
+                deckId: deck.id,
+                deckName: deck.name,
+                total,
+                mature,
+                learning,
+                new: newCards,
+                masteryPercent: total > 0 ? Math.round((mature / total) * 100) : 0,
+            };
+        });
     }
 
     async recordReview(userId: string, xpEarned: number = 10) {

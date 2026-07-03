@@ -5,9 +5,10 @@ import { useFSRS } from "@/hooks/useFSRS";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
+import { CheckCircle2 } from "lucide-react";
 
 interface Props {
-	deckId: string;
+	deckId?: string;
 	version?: number;
 }
 
@@ -26,7 +27,7 @@ const ratingStyles: Record<number, string> = {
 };
 
 const baseButtonClasses =
-	"flex flex-col items-center justify-center gap-1 py-4 h-auto text-sm font-semibold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed";
+	"flex flex-col items-center justify-center gap-0.5 py-3 h-auto text-sm font-semibold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed";
 
 export default function Lernground({ deckId, version }: Props) {
 	const [flipped, setFlipped] = React.useState(false);
@@ -42,19 +43,19 @@ export default function Lernground({ deckId, version }: Props) {
 	if (loading) {
 		return (
 			<div className="space-y-3 animate-pulse">
-				<div className="h-4 w-32 bg-muted" />
-				<div className="h-24 bg-muted" />
-				<div className="h-20 bg-muted" />
+				<div className="h-4 w-32 bg-muted rounded-md" />
+				<div className="h-24 bg-muted rounded-xl" />
+				<div className="h-20 bg-muted rounded-xl" />
 			</div>
 		);
 	}
 
 	if (finished || !currentCard) {
 		return (
-			<div className="text-center space-y-4 py-16 bg-card border border-border rounded-xl shadow-sm">
-				<div className="text-5xl mb-6">🎉</div>
-				<h2 className="text-2xl font-bold tracking-tight">Чудова робота!</h2>
-				<p className="text-muted-foreground px-4">{t("deck.review.empty")}</p>
+			<div className="text-center space-y-3 py-16">
+				<CheckCircle2 className="h-10 w-10 text-primary mx-auto" />
+				<h2 className="text-xl font-bold tracking-tight">{t("deck.review.done_title")}</h2>
+				<p className="text-sm text-muted-foreground px-4">{t("deck.review.empty")}</p>
 			</div>
 		);
 	}
@@ -72,16 +73,14 @@ export default function Lernground({ deckId, version }: Props) {
 	}
 
 	return (
-		<div className="space-y-6">
+		<div className="space-y-5">
 			{/* progress */}
-			<div className="space-y-3">
-				<div className="flex items-center justify-between text-sm font-medium text-muted-foreground">
-					<span className="inline-flex items-center gap-2 bg-muted rounded-md px-2.5 py-1">
-						{currentNumber} / {totalCards}
-					</span>
-					<span className="hidden sm:inline">Flip card, then rate difficulty.</span>
+			<div className="space-y-2">
+				<div className="flex items-center justify-between text-xs font-medium text-muted-foreground">
+					<span>{currentNumber} / {totalCards}</span>
+					<span className="hidden sm:inline">{t("deck.review.hint")}</span>
 				</div>
-				<div className="h-2.5 w-full bg-secondary rounded-full overflow-hidden">
+				<div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
 					<div
 						className="h-full bg-primary transition-all duration-500 rounded-full"
 						style={{ width: `${progress}%` }}
@@ -91,7 +90,8 @@ export default function Lernground({ deckId, version }: Props) {
 
 			{/* card with flip */}
 			<div
-				className="w-full relative cursor-pointer perspective-1000 h-[300px] md:h-[400px]"
+				className="w-full relative cursor-pointer h-[280px] md:h-[360px]"
+				style={{ perspective: "1000px" }}
 				onClick={() => setFlipped(!flipped)}
 			>
 				<div
@@ -99,34 +99,31 @@ export default function Lernground({ deckId, version }: Props) {
 						"absolute inset-0 w-full h-full transition-all duration-500",
 						flipped ? "[transform:rotateY(180deg)]" : ""
 					)}
-					style={{ transformStyle: 'preserve-3d' }}
+					style={{ transformStyle: "preserve-3d" }}
 				>
 					{/* front */}
 					<div
-						className="absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center space-y-4 bg-card border border-border rounded-2xl p-6 md:p-10 shadow-sm"
-						style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
+						className="absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center bg-card border border-border rounded-xl p-6 md:p-10"
+						style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
 					>
-						<div className="absolute top-6 left-8 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t("deck.detail.question")}</div>
-						<div className="text-2xl md:text-4xl font-semibold leading-tight max-w-2xl">{currentCard.question}</div>
-						<p className="absolute bottom-6 text-sm text-muted-foreground flex flex-col items-center gap-2">
-							<span className="w-8 h-1 rounded-full bg-muted-foreground/30 animate-pulse" />
-							<span>{t("deck.review.flip")}</span>
-						</p>
+						<div className="absolute top-5 left-6 text-xs font-medium uppercase tracking-wider text-muted-foreground">{t("deck.detail.question")}</div>
+						<div className="text-2xl md:text-3xl font-semibold leading-tight max-w-2xl">{currentCard.question}</div>
+						<p className="absolute bottom-5 text-xs text-muted-foreground">{t("deck.review.flip")}</p>
 					</div>
 
 					{/* back */}
 					<div
-						className="absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center space-y-6 bg-muted border border-border rounded-2xl p-6 md:p-10 shadow-sm"
-						style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
+						className="absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center bg-muted border border-border rounded-xl p-6 md:p-10"
+						style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
 					>
-						<div className="absolute top-6 left-8 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t("deck.detail.answer")}</div>
+						<div className="absolute top-5 left-6 text-xs font-medium uppercase tracking-wider text-muted-foreground">{t("deck.detail.answer")}</div>
 						<div className="text-xl md:text-2xl font-medium leading-relaxed max-w-2xl">{currentCard.answer}</div>
 					</div>
 				</div>
 			</div>
 
 			{/* rating buttons */}
-			<div className="grid gap-2 md:grid-cols-4">
+			<div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
 				{RATING_BUTTONS.map(({ labelKey, rating: r }) => (
 					<Button
 						key={r}
@@ -136,8 +133,8 @@ export default function Lernground({ deckId, version }: Props) {
 						disabled={!flipped || rating}
 						onClick={() => handleRate(r)}
 					>
-						<span className="font-semibold text-base">{t(labelKey)}</span>
-						{schedule && schedule[r] && <span className="text-xs font-medium opacity-80 mt-0.5">{schedule[r]}</span>}
+						<span className="font-semibold text-sm">{t(labelKey)}</span>
+						{schedule[r] && <span className="text-xs font-medium opacity-80">{schedule[r]}</span>}
 					</Button>
 				))}
 			</div>

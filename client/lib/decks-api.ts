@@ -8,6 +8,7 @@ export interface DeckSummary {
 	description: string | null;
 	language: string;
 	tags: string[];
+	color: string;
 	totalCards: number;
 	dueCards: number;
 	createdAt: string;
@@ -20,6 +21,7 @@ export interface Deck {
 	description: string | null;
 	language: string;
 	tags: string[];
+	color: string;
 	createdAt: string;
 	updatedAt: string;
 }
@@ -69,7 +71,7 @@ export function createDeck(data: { name: string; description?: string; language?
 	return api.post<Deck>('/decks', data);
 }
 
-export function updateDeck(id: string, data: Partial<{ name: string; description: string; language: string; tags: string[] }>) {
+export function updateDeck(id: string, data: Partial<{ name: string; description: string; language: string; tags: string[]; color: string }>) {
 	return api.patch<Deck>(`/decks/${id}`, data);
 }
 
@@ -79,17 +81,24 @@ export function deleteDeck(id: string) {
 
 // ----- Cards API -----
 
-export function listCards(deckId?: string, q?: string, tag?: string) {
-	const params = new URLSearchParams();
-	if (deckId) params.set('deckId', deckId);
-	if (q) params.set('q', q);
-	if (tag) params.set('tag', tag);
-	const query = params.toString() ? `?${params}` : '';
-	return api.get<Card[]>(`/cards${query}`);
+export interface CardListResult {
+	items: Card[];
+	total: number;
 }
 
-export function getDueCards(deckId: string) {
-	return api.get<Card[]>(`/cards/due?deckId=${deckId}`);
+export function listCards(options: { deckId?: string; q?: string; tag?: string; skip?: number; take?: number } = {}) {
+	const params = new URLSearchParams();
+	if (options.deckId) params.set('deckId', options.deckId);
+	if (options.q) params.set('q', options.q);
+	if (options.tag) params.set('tag', options.tag);
+	if (options.skip) params.set('skip', String(options.skip));
+	if (options.take) params.set('take', String(options.take));
+	const query = params.toString() ? `?${params}` : '';
+	return api.get<CardListResult>(`/cards${query}`);
+}
+
+export function getDueCards(deckId?: string) {
+	return api.get<Card[]>(deckId ? `/cards/due?deckId=${deckId}` : '/cards/due');
 }
 
 export function getCard(id: string) {

@@ -50,19 +50,24 @@ export class CardsService {
             where.tags = { has: tag };
         }
 
-        return this.prisma.card.findMany({
-            where,
-            orderBy: { updatedAt: 'desc' },
-            skip: skip ? Number(skip) : 0,
-            take: take ? Number(take) : 50,
-        });
+        const [items, total] = await Promise.all([
+            this.prisma.card.findMany({
+                where,
+                orderBy: { updatedAt: 'desc' },
+                skip: skip ? Number(skip) : 0,
+                take: take ? Number(take) : 50,
+            }),
+            this.prisma.card.count({ where }),
+        ]);
+
+        return { items, total };
     }
 
-    async getDueCards(userId: string, deckId: string) {
+    async getDueCards(userId: string, deckId?: string) {
         return this.prisma.card.findMany({
             where: {
                 userId,
-                deckId,
+                ...(deckId && { deckId }),
                 due: { lte: new Date() },
             },
             orderBy: { due: 'asc' },
@@ -88,7 +93,7 @@ export class CardsService {
         });
 
         if (!deck) {
-            throw new NotFoundException("deck doesn't exist");
+            throw new NotFoundException('Deck not found');
         }
 
         const emptyCard = createEmptyCard(new Date());
@@ -124,7 +129,7 @@ export class CardsService {
         });
 
         if (decksCount !== deckIds.length) {
-            throw new NotFoundException("Один або декілька deckId не знайдені або вам не належать");
+            throw new NotFoundException('One or more decks were not found');
         }
 
         const emptyCard = createEmptyCard(new Date());

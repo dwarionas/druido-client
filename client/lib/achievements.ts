@@ -1,8 +1,10 @@
+import type { LucideIcon } from "lucide-react";
+import { Target, Layers, Library, Flame, CalendarCheck, Trophy, Star, Sparkles, Crown, FolderOpen } from "lucide-react";
 import { StatsOverview, DeckStats } from "./decks-api";
 
 export interface Achievement {
     id: string;
-    emoji: string;
+    icon: LucideIcon;
     titleKey: string;
     descKey: string;
     earned: boolean;
@@ -23,70 +25,70 @@ export function computeAchievements(
     return [
         {
             id: "first-deck",
-            emoji: "🎯",
+            icon: Target,
             titleKey: "achievements.first_deck",
             descKey: "achievements.first_deck.desc",
             earned: totalDecks >= 1,
         },
         {
             id: "ten-cards",
-            emoji: "🃏",
+            icon: Layers,
             titleKey: "achievements.ten_cards",
             descKey: "achievements.ten_cards.desc",
             earned: totalCards >= 10,
         },
         {
             id: "hundred-cards",
-            emoji: "📚",
+            icon: Library,
             titleKey: "achievements.hundred_cards",
             descKey: "achievements.hundred_cards.desc",
             earned: totalCards >= 100,
         },
         {
             id: "streak-3",
-            emoji: "🔥",
+            icon: Flame,
             titleKey: "achievements.streak_3",
             descKey: "achievements.streak_3.desc",
             earned: streak >= 3,
         },
         {
             id: "streak-7",
-            emoji: "💪",
+            icon: CalendarCheck,
             titleKey: "achievements.streak_7",
             descKey: "achievements.streak_7.desc",
             earned: streak >= 7,
         },
         {
             id: "streak-30",
-            emoji: "🏆",
+            icon: Trophy,
             titleKey: "achievements.streak_30",
             descKey: "achievements.streak_30.desc",
             earned: streak >= 30,
         },
         {
             id: "xp-100",
-            emoji: "⭐",
+            icon: Star,
             titleKey: "achievements.xp_100",
             descKey: "achievements.xp_100.desc",
             earned: xp >= 100,
         },
         {
             id: "xp-1000",
-            emoji: "🌟",
+            icon: Sparkles,
             titleKey: "achievements.xp_1000",
             descKey: "achievements.xp_1000.desc",
             earned: xp >= 1000,
         },
         {
             id: "deck-master",
-            emoji: "👑",
+            icon: Crown,
             titleKey: "achievements.deck_master",
             descKey: "achievements.deck_master.desc",
             earned: hasMastered,
         },
         {
             id: "five-decks",
-            emoji: "🗂️",
+            icon: FolderOpen,
             titleKey: "achievements.five_decks",
             descKey: "achievements.five_decks.desc",
             earned: totalDecks >= 5,

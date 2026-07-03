@@ -39,7 +39,7 @@ export class CardsController {
     @Get('due')
     getDueCards(
         @CurrentUser() userId: string,
-        @Query('deckId') deckId: string,
+        @Query('deckId') deckId?: string,
     ) {
         return this.cardsService.getDueCards(userId, deckId);
     }
