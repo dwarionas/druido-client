@@ -4,7 +4,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { createEmptyCard } from 'ts-fsrs';
 
-const DEMO_EMAIL = 'demo@druido.app';
+export const DEMO_EMAIL = 'demo@druido.app';
 const DEMO_PASSWORD = 'demo1234';
 const DEMO_NAME = 'Demo';
 const BCRYPT_ROUNDS = 12;

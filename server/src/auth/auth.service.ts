@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
 import { RegisterDto, LoginDto } from './dto/auth.dto';
 import { UpdateProfileDto, ChangePasswordDto } from './dto/profile.dto';
-import { seedDemoUser, resetDemoUser } from '../seed-demo';
+import { seedDemoUser, resetDemoUser, DEMO_EMAIL } from '../seed-demo';
 
 const BCRYPT_ROUNDS = 12;
 
@@ -71,7 +71,12 @@ export class AuthService {
                 createdAt: true,
             },
         });
-        return user;
+
+        if (!user) {
+            return null;
+        }
+
+        return { ...user, isDemo: user.email === DEMO_EMAIL };
     }
 
     async updateProfile(userId: string, dto: UpdateProfileDto) {

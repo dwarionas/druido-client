@@ -12,6 +12,7 @@ interface User {
 	dailyGoal: number;
 	lastStudiedAt: string | null;
 	createdAt: string;
+	isDemo?: boolean;
 }
 
 interface AuthContextType {

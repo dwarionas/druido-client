@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { Flame, Star } from "lucide-react";
 
 export default function ProfilePage() {
     const { user, updateUser, refreshUser } = useAuth();
@@ -100,7 +101,8 @@ export default function ProfilePage() {
                 <LanguageSwitcher />
             </div>
 
-            {/* Change password */}
+            {/* Change password (not available for the shared demo account) */}
+            {!user.isDemo && (
             <form onSubmit={handleChangePassword} className="bg-card border border-border rounded-xl p-5 shadow-sm space-y-4">
                 <h2 className="text-lg font-semibold">{t("profile.change_password")}</h2>
                 <div className="space-y-2">
@@ -115,8 +117,10 @@ export default function ProfilePage() {
                     {changingPassword ? "..." : t("profile.change_password")}
                 </Button>
             </form>
+            )}
 
             {/* Reset Demo */}
+            {user.isDemo && (
             <div className="bg-destructive/10 border border-destructive/20 rounded-xl p-5 space-y-3">
                 <h2 className="text-lg font-semibold text-destructive">{t("demo.reset")}</h2>
                 <p className="text-sm font-medium text-destructive/80">{t("demo.reset.desc")}</p>
@@ -136,12 +140,13 @@ export default function ProfilePage() {
                     {t("demo.reset.confirm")}
                 </Button>
             </div>
+            )}
 
             {/* Stats summary */}
             <div className="bg-card border border-border rounded-xl p-5 shadow-sm">
                 <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-medium">
-                    <span className="flex items-center gap-1.5"><span className="text-orange-500">🔥</span> {user.streak} {t("stats.streak")}</span>
-                    <span className="flex items-center gap-1.5"><span className="text-yellow-500">⭐</span> {user.xp} XP</span>
+                    <span className="flex items-center gap-1.5"><Flame className="h-4 w-4 text-orange-500" /> {user.streak} {t("stats.streak")}</span>
+                    <span className="flex items-center gap-1.5"><Star className="h-4 w-4 text-amber-500" /> {user.xp} XP</span>
                     {user.createdAt && (
                         <span className="text-muted-foreground w-full sm:w-auto">{t("stats.member_since")} {new Date(user.createdAt).toLocaleDateString()}</span>
                     )}
