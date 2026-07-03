@@ -20,9 +20,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
 	return (
-		<html lang="en" suppressHydrationWarning className={`${inter.variable} dark`}>
-			<body className="font-sans antialiased bg-background noise-overlay">
-				<ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark" enableSystem={false} disableTransitionOnChange>
+		<html lang="en" suppressHydrationWarning className={inter.variable}>
+			<body className="font-sans antialiased bg-background">
+				<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
 					<I18nProvider>
 						<AuthProvider>{children}</AuthProvider>
 					</I18nProvider>
